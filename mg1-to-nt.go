@@ -52,7 +52,7 @@ func main() {
 		panic(token.Error())
 	}
 
-	sub(client, "/#")
+	sub(client, mqttSubscribeTopic)
 
 	fmt.Printf("Press Ctrl+C to end\n")
 	WaitForCtrlC()
