@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/signal"
+	"sync"
 	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
@@ -39,8 +42,11 @@ func main() {
 	}
 
 	sub(client)
-	publish(client)
+	//publish(client)
 
+	fmt.Printf("Press Ctrl+C to end\n")
+	WaitForCtrlC()
+	fmt.Printf("\n")
 	client.Disconnect(250)
 }
 
@@ -59,4 +65,17 @@ func sub(client mqtt.Client) {
 	token := client.Subscribe(topic, 1, nil)
 	token.Wait()
 	fmt.Printf("Subscribed to topic: %s", topic)
+}
+
+func WaitForCtrlC() {
+	var end_waiter sync.WaitGroup
+	end_waiter.Add(1)
+	var signal_channel chan os.Signal
+	signal_channel = make(chan os.Signal, 1)
+	signal.Notify(signal_channel, os.Interrupt)
+	go func() {
+		<-signal_channel
+		end_waiter.Done()
+	}()
+	end_waiter.Wait()
 }
