@@ -31,7 +31,7 @@ func main() {
 	fmt.Println("Starting App...")
 
 	var mqttBrokerHost string
-	flag.StringVar(&mqttBrokerHost, "mqtt-host", "10.99.30.100", "IP or hostname of the MQTT Broker")
+	flag.StringVar(&mqttBrokerHost, "mqtt-host", "localhost", "IP or hostname of the MQTT Broker")
 	var mqttBrokerPort = 1883
 	flag.IntVar(&mqttBrokerPort, "mqtt-port", 1883, "MQTT Broker port")
 	var mqttSubscribeTopic string
